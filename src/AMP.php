@@ -455,6 +455,20 @@ class AMP
         $this->sortActionTakeByLineno();
         $temp_amp_html = $this->getOutputHTML($qp);
         $this->amp_html = $this->addStatisticsIfEnabled($temp_amp_html);
+        
+/*added by Satys*/
+        $qp = $this->getDOMQuery($temp_amp_html, $this->options['use_html5_parser']);
+        $qp->find('ul')->removeChildren();
+        foreach ($qp->find('link') as $link) {
+            if ($link->hasAttr('rel')) {
+            } else {
+                $tmp_link = $link;
+                $link->parent()->remove($tmp_link);
+            }
+         }
+        $temp_amp_html = $this->getOutputHTML($qp);
+        $this->amp_html = $this->addStatisticsIfEnabled($temp_amp_html);
+/*added by Satys*/
 
         return $this->amp_html;
     }
